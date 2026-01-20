@@ -6,7 +6,7 @@ Este plano de implementação detalha as etapas para construir o aplicativo Even
 
 ## Tasks
 
-- [ ] 1. Configurar estrutura do projeto
+- [x] 1. Configurar estrutura do projeto
   - Criar solução C# com projeto Windows Forms
   - Adicionar projeto de testes (xUnit ou NUnit)
   - Instalar pacote FsCheck para property-based testing
@@ -14,7 +14,7 @@ Este plano de implementação detalha as etapas para construir o aplicativo Even
   - _Requirements: 5.4_
 
 - [ ] 2. Implementar modelo de dados Event
-  - [-] 2.1 Criar classe Event com propriedades (Id, Description, EventDateTime, IsNotified)
+  - [ ] 2.1 Criar classe Event com propriedades (Id, Description, EventDateTime, IsNotified)
     - Implementar validação básica no construtor
     - _Requirements: 1.1, 1.2, 1.3_
   
