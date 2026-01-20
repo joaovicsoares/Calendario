@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EventCalendar.Models;
 
 namespace EventCalendar.Repositories
@@ -11,27 +12,27 @@ namespace EventCalendar.Repositories
     public interface IEventRepository
     {
         /// <summary>
-        /// Saves the entire list of events to storage.
+        /// Saves the entire list of events to storage asynchronously.
         /// </summary>
         /// <param name="events">List of events to save</param>
-        void Save(List<Event> events);
+        Task SaveAsync(List<Event> events);
 
         /// <summary>
-        /// Loads all events from storage.
+        /// Loads all events from storage asynchronously.
         /// </summary>
         /// <returns>List of events, or empty list if no events exist or error occurs</returns>
-        List<Event> Load();
+        Task<List<Event>> LoadAsync();
 
         /// <summary>
-        /// Adds a new event to storage with immediate persistence.
+        /// Adds a new event to storage with immediate persistence asynchronously.
         /// </summary>
         /// <param name="eventItem">Event to add</param>
-        void Add(Event eventItem);
+        Task AddAsync(Event eventItem);
 
         /// <summary>
-        /// Removes an event from storage with immediate persistence.
+        /// Removes an event from storage with immediate persistence asynchronously.
         /// </summary>
         /// <param name="eventId">ID of the event to remove</param>
-        void Remove(Guid eventId);
+        Task RemoveAsync(Guid eventId);
     }
 }
