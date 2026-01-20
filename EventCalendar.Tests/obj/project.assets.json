@@ -6099,41 +6099,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\165445\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\victo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projetos\\Calendario\\EventCalendar.Tests\\EventCalendar.Tests.csproj",
+      "projectUniqueName": "D:\\Projetos\\local\\Calendario\\EventCalendar.Tests\\EventCalendar.Tests.csproj",
       "projectName": "EventCalendar.Tests",
-      "projectPath": "C:\\projetos\\Calendario\\EventCalendar.Tests\\EventCalendar.Tests.csproj",
-      "packagesPath": "C:\\Users\\165445\\.nuget\\packages\\",
-      "outputPath": "C:\\projetos\\Calendario\\EventCalendar.Tests\\obj\\",
+      "projectPath": "D:\\Projetos\\local\\Calendario\\EventCalendar.Tests\\EventCalendar.Tests.csproj",
+      "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
+      "outputPath": "D:\\Projetos\\local\\Calendario\\EventCalendar.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\165445\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.havan.com.br/nuget": {},
-        "https://registry.tools.havan.com.br/nuget/nuget-havan/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\projetos\\Calendario\\EventCalendar\\EventCalendar.csproj": {
-              "projectPath": "C:\\projetos\\Calendario\\EventCalendar\\EventCalendar.csproj"
+            "D:\\Projetos\\local\\Calendario\\EventCalendar\\EventCalendar.csproj": {
+              "projectPath": "D:\\Projetos\\local\\Calendario\\EventCalendar\\EventCalendar.csproj"
             }
           }
         }
@@ -6142,13 +6133,7 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "10.0.100"
+      }
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -6199,7 +6184,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

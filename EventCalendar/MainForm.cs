@@ -21,6 +21,7 @@ namespace EventCalendar
         private Button removeEventButton = null!;
         private Label titleLabel = null!;
         private Label eventsLabel = null!;
+        private NotifyIcon notifyIcon = null!;
 
         /// <summary>
         /// Creates a new MainForm with the specified event manager and notification service.
@@ -34,9 +35,13 @@ namespace EventCalendar
             
             InitializeComponent();
             
+            // Initialize system tray icon
+            InitializeSystemTray();
+            
             // Wire up event handlers
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
+            this.Resize += MainForm_Resize;
             monthCalendar.DateChanged += MonthCalendar_DateChanged;
             addEventButton.Click += AddEventButton_Click;
             removeEventButton.Click += RemoveEventButton_Click;
@@ -55,14 +60,95 @@ namespace EventCalendar
         }
 
         /// <summary>
-        /// Handles form closing event - stops the notification service.
+        /// Handles form closing event - minimizes to tray instead of closing.
         /// </summary>
         private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
+            // If user clicked X button, minimize to tray instead of closing
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+                notifyIcon.ShowBalloonTip(2000, "Event Calendar", "Aplicativo minimizado para a bandeja do sistema", ToolTipIcon.Info);
+                return;
+            }
+            
+            // Only actually close when shutting down the application
             // Unsubscribe from notification service
             _notificationService.EventDue -= NotificationService_EventDue;
+            
+            // Clean up system tray icon
+            notifyIcon?.Dispose();
         }
 
+        /// <summary>
+        /// Handles form resize event - minimizes to tray when minimized.
+        /// </summary>
+        private void MainForm_Resize(object? sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                notifyIcon.ShowBalloonTip(2000, "Event Calendar", "Aplicativo minimizado para a bandeja do sistema", ToolTipIcon.Info);
+            }
+        }
+
+        /// <summary>
+        /// Initializes the system tray icon and context menu.
+        /// </summary>
+        private void InitializeSystemTray()
+        {
+            // Create context menu for system tray
+            var contextMenu = new ContextMenuStrip();
+            
+            var showMenuItem = new ToolStripMenuItem("Mostrar");
+            showMenuItem.Click += (s, e) => ShowMainForm();
+            
+            var exitMenuItem = new ToolStripMenuItem("Sair");
+            exitMenuItem.Click += (s, e) => ExitApplication();
+            
+            contextMenu.Items.Add(showMenuItem);
+            contextMenu.Items.Add(new ToolStripSeparator());
+            contextMenu.Items.Add(exitMenuItem);
+            
+            // Create notify icon
+            notifyIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Application, // You can replace with a custom icon
+                Text = "Event Calendar - Calendário de Eventos",
+                Visible = true,
+                ContextMenuStrip = contextMenu
+            };
+            
+            // Double-click to show main form
+            notifyIcon.DoubleClick += (s, e) => ShowMainForm();
+        }
+
+        /// <summary>
+        /// Shows the main form and brings it to front.
+        /// </summary>
+        private void ShowMainForm()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.BringToFront();
+            this.Activate();
+        }
+
+        /// <summary>
+        /// Exits the application completely.
+        /// </summary>
+        private void ExitApplication()
+        {
+            // Unsubscribe from notification service
+            _notificationService.EventDue -= NotificationService_EventDue;
+            
+            // Clean up system tray icon
+            notifyIcon?.Dispose();
+            
+            // Exit application
+            Application.Exit();
+        }
         /// <summary>
         /// Handles event due notification - displays NotificationModal.
         /// Requirements: 4.1, 4.2, 4.3, 4.5
@@ -83,6 +169,7 @@ namespace EventCalendar
         /// <summary>
         /// Shows the notification modal for a due event.
         /// Supports multiple notifications sequentially.
+        /// Shows popup even when app is minimized to tray.
         /// Requirements: 4.1, 4.2, 4.3, 4.5
         /// </summary>
         private async void ShowNotificationModal(Models.Event dueEvent)
@@ -92,13 +179,21 @@ namespace EventCalendar
                 // Create and show notification modal (Requirements 4.1, 4.2, 4.3)
                 using (var notificationModal = new NotificationModal(dueEvent))
                 {
+                    // Show notification even if main form is hidden
+                    // This ensures popups appear even when app is in system tray
+                    notificationModal.TopMost = true;
+                    notificationModal.StartPosition = FormStartPosition.CenterScreen;
+                    
                     // ShowDialog blocks until user clicks OK (Requirement 4.3)
                     // This ensures sequential display for multiple events (Requirement 4.5)
-                    notificationModal.ShowDialog(this);
+                    notificationModal.ShowDialog();
                 }
                 
-                // Refresh the event list to reflect any changes
-                await LoadAndDisplayAllEventsAsync();
+                // Refresh the event list to reflect any changes (only if main form is visible)
+                if (this.Visible)
+                {
+                    await LoadAndDisplayAllEventsAsync();
+                }
             }
             catch (Exception ex)
             {

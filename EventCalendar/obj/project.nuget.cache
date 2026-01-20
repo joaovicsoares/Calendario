@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "jwCnIhG0ZKY=",
+  "dgSpecHash": "TBY8Lhzi3l/hPxqByxPmub3GcP5UbJ0JYF7zbIwYyFK4vgr9F6Z6MAybZTeiAEr3EJ+zAhaiwp2xxiQBK/YvvA==",
   "success": true,
-  "projectFilePath": "C:\\projetos\\Calendario\\EventCalendar\\EventCalendar.csproj",
+  "projectFilePath": "D:\\Projetos\\local\\Calendario\\EventCalendar\\EventCalendar.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\165445\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\victo\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }
