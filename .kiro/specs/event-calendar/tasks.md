@@ -13,8 +13,8 @@ Este plano de implementação detalha as etapas para construir o aplicativo Even
   - Instalar Newtonsoft.Json para serialização
   - _Requirements: 5.4_
 
-- [ ] 2. Implementar modelo de dados Event
-  - [ ] 2.1 Criar classe Event com propriedades (Id, Description, EventDateTime, IsNotified)
+- [x] 2. Implementar modelo de dados Event
+  - [x] 2.1 Criar classe Event com propriedades (Id, Description, EventDateTime, IsNotified)
     - Implementar validação básica no construtor
     - _Requirements: 1.1, 1.2, 1.3_
   
