@@ -464,7 +464,7 @@ namespace EventCalendar
             {
                 Text = "Calendário de Eventos",
                 Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold),
-                Location = new System.Drawing.Point(20, 20),
+                Location = new System.Drawing.Point(250, 20),
                 Size = new System.Drawing.Size(300, 35),
                 AutoSize = true
             };
@@ -472,7 +472,7 @@ namespace EventCalendar
             // MonthCalendar - for date selection and visualization
             monthCalendar = new MonthCalendar
             {
-                Location = new System.Drawing.Point(20, 70),
+                Location = new System.Drawing.Point(20, 100),
                 MaxSelectionCount = 1
             };
 
