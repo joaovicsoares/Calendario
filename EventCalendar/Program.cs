@@ -15,7 +15,7 @@ static class Program
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static void Main(string[] args)
     {
         // Setup global error handlers (Requirement 6.3)
         Application.ThreadException += Application_ThreadException;
@@ -35,7 +35,17 @@ static class Program
             notificationService.Start();
             
             // Create and run main form
-            Application.Run(new MainForm(eventManager, notificationService));
+            var mainForm = new MainForm(eventManager, notificationService);
+            
+            // Check if started minimized (e.g., from Windows startup)
+            bool startMinimized = args.Length > 0 && args[0] == "--minimized";
+            if (startMinimized)
+            {
+                mainForm.WindowState = FormWindowState.Minimized;
+                mainForm.ShowInTaskbar = false;
+            }
+            
+            Application.Run(mainForm);
             
             // Stop notification service when application closes
             notificationService.Stop();

@@ -56,6 +56,13 @@ namespace EventCalendar
         /// </summary>
         private async void MainForm_Load(object? sender, EventArgs e)
         {
+            // If starting minimized, hide immediately
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                this.ShowInTaskbar = false;
+            }
+            
             await LoadAndDisplayAllEventsAsync();
         }
 
@@ -104,10 +111,16 @@ namespace EventCalendar
             var showMenuItem = new ToolStripMenuItem("Mostrar");
             showMenuItem.Click += (s, e) => ShowMainForm();
             
+            var startupMenuItem = new ToolStripMenuItem("Iniciar com Windows");
+            startupMenuItem.Checked = Services.StartupManager.IsStartupEnabled();
+            startupMenuItem.Click += (s, e) => ToggleStartup(startupMenuItem);
+            
             var exitMenuItem = new ToolStripMenuItem("Sair");
             exitMenuItem.Click += (s, e) => ExitApplication();
             
             contextMenu.Items.Add(showMenuItem);
+            contextMenu.Items.Add(new ToolStripSeparator());
+            contextMenu.Items.Add(startupMenuItem);
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add(exitMenuItem);
             
@@ -125,12 +138,61 @@ namespace EventCalendar
         }
 
         /// <summary>
+        /// Toggles the Windows startup setting.
+        /// </summary>
+        private void ToggleStartup(ToolStripMenuItem menuItem)
+        {
+            try
+            {
+                bool currentState = Services.StartupManager.IsStartupEnabled();
+                bool success;
+                
+                if (currentState)
+                {
+                    success = Services.StartupManager.DisableStartup();
+                    if (success)
+                    {
+                        menuItem.Checked = false;
+                        notifyIcon.ShowBalloonTip(2000, "Event Calendar", "Startup automático desabilitado", ToolTipIcon.Info);
+                    }
+                }
+                else
+                {
+                    success = Services.StartupManager.EnableStartup();
+                    if (success)
+                    {
+                        menuItem.Checked = true;
+                        notifyIcon.ShowBalloonTip(2000, "Event Calendar", "Startup automático habilitado", ToolTipIcon.Info);
+                    }
+                }
+                
+                if (!success)
+                {
+                    MessageBox.Show(
+                        "Erro ao alterar configuração de startup. Verifique as permissões.",
+                        "Erro",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Erro ao alterar startup: {ex.Message}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Shows the main form and brings it to front.
         /// </summary>
         private void ShowMainForm()
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
             this.BringToFront();
             this.Activate();
         }
