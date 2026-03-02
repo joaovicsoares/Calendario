@@ -125,9 +125,17 @@ namespace EventCalendar
             contextMenu.Items.Add(exitMenuItem);
             
             // Create notify icon
+            // Load custom icon for the system tray
+            System.Drawing.Icon trayIcon = SystemIcons.Application;
+            var trayIconPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.ico");
+            if (System.IO.File.Exists(trayIconPath))
+            {
+                trayIcon = new System.Drawing.Icon(trayIconPath);
+            }
+
             notifyIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application, // You can replace with a custom icon
+                Icon = trayIcon,
                 Text = "Event Calendar - Calendário de Eventos",
                 Visible = true,
                 ContextMenuStrip = contextMenu
@@ -458,6 +466,13 @@ namespace EventCalendar
             this.Size = new System.Drawing.Size(800, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = new System.Drawing.Size(800, 600);
+
+            // Load custom icon for the form
+            var iconPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.ico");
+            if (System.IO.File.Exists(iconPath))
+            {
+                this.Icon = new System.Drawing.Icon(iconPath);
+            }
 
             // Title Label
             titleLabel = new Label
